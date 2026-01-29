@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colombian Island Fisherman Design System
+   Inspired by San Andrés, Providencia - Caribbean coastal vibes */
+
+@layer base {
+  :root {
+    /* Core backgrounds */
+    --background: 40 33% 96%;
+    --foreground: 200 50% 15%;
+
+    /* Cards - warm sandy tones */
+    --card: 40 40% 98%;
+    --card-foreground: 200 50% 15%;
+
+    --popover: 40 40% 98%;
+    --popover-foreground: 200 50% 15%;
+
+    /* Primary - Deep Caribbean Ocean */
+    --primary: 195 70% 35%;
+    --primary-foreground: 40 40% 98%;
+
+    /* Secondary - Sandy Beach */
+    --secondary: 35 40% 90%;
+    --secondary-foreground: 200 50% 15%;
+
+    /* Muted - Soft ocean foam */
+    --muted: 195 30% 92%;
+    --muted-foreground: 200 25% 45%;
+
+    /* Accent - Sunset Coral */
+    --accent: 15 80% 55%;
+    --accent-foreground: 40 40% 98%;
+
+    /* Status colors */
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 40 40% 98%;
+
+    /* Caribbean Island Colors */
+    --ocean: 195 70% 35%;
+    --ocean-light: 190 60% 65%;
+    --ocean-dark: 200 75% 25%;
+    --coral: 15 80% 55%;
+    --coral-light: 15 75% 70%;
+    --sand: 40 45% 85%;
+    --sand-dark: 35 35% 70%;
+    --palm: 145 45% 40%;
+    
+    /* Safety status */
+    --safe: 155 70% 40%;
+    --safe-light: 155 60% 55%;
+    --caution: 45 95% 55%;
+    --caution-dark: 40 90% 45%;
+    --danger: 0 75% 50%;
+    --danger-dark: 0 70% 40%;
+
+    --border: 35 30% 85%;
+    --input: 35 30% 85%;
+    --ring: 195 70% 35%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 40 33% 96%;
+    --sidebar-foreground: 200 50% 15%;
+    --sidebar-primary: 195 70% 35%;
+    --sidebar-primary-foreground: 40 40% 98%;
+    --sidebar-accent: 35 40% 90%;
+    --sidebar-accent-foreground: 200 50% 15%;
+    --sidebar-border: 35 30% 85%;
+    --sidebar-ring: 195 70% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Nunito', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer components {
+  /* Gradient backgrounds */
+  .bg-gradient-ocean {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--ocean)) 0%,
+      hsl(var(--ocean-dark)) 100%
+    );
+  }
+
+  .bg-gradient-safe {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--safe)) 0%,
+      hsl(var(--safe-light)) 100%
+    );
+  }
+
+  .bg-gradient-caution {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--caution-dark)) 0%,
+      hsl(var(--caution)) 100%
+    );
+  }
+
+  .bg-gradient-danger {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--danger-dark)) 0%,
+      hsl(var(--danger)) 100%
+    );
+  }
+
+  /* Card styles */
+  .card-island {
+    @apply bg-white/90 backdrop-blur-sm p-5 rounded-2xl shadow-soft border border-sand/30 flex flex-col items-center;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-coral text-white px-8 py-4 rounded-2xl font-bold shadow-lg 
+           hover:bg-coral-light active:scale-95 transition-all duration-200
+           border-2 border-coral-light/30;
+  }
+
+  /* Shadow utilities */
+  .shadow-soft {
+    box-shadow: 0 4px 20px -2px hsla(var(--ocean), 0.1),
+                0 2px 8px -2px hsla(var(--ocean), 0.05);
+  }
+
+  .shadow-card {
+    box-shadow: 0 10px 40px -10px hsla(var(--ocean), 0.25),
+                0 4px 16px -4px hsla(var(--ocean), 0.1);
+  }
+}
+
+@layer utilities {
+  /* Animations */
+  @keyframes wave {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-3px) rotate(2deg); }
+    75% { transform: translateY(3px) rotate(-2deg); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .animate-wave {
+    animation: wave 3s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* Typography */
+  .font-display {
+    font-family: 'Nunito', system-ui, sans-serif;
+    font-weight: 900;
+  }
+}

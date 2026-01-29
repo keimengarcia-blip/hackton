@@ -7,12 +7,20 @@ import { updateGlobalState, getCurrentStatusValue } from './src/controllers/aler
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use('/api/alert', alertRoutes);
 
 // --- LÓGICA DE AUTOMATIZACIÓN ---
 const MINUTOS = 5;
 const INTERVALO = MINUTOS * 60 * 1000;
-
+// En tu archivo donde inicializas Socket.io
+const io = new Server(httpServer, {
+  cors: {
+    // Reemplaza con tu URL real de Vercel
+    origin: ["https://hackton-olive.vercel.app"], 
+    methods: ["GET", "POST"]
+  }
+});
 const startMonitoring = () => {
     console.log(`📡 Monitor iniciado: Verificando Tierrabomba cada ${MINUTOS} minutos...`);
 
@@ -34,17 +42,14 @@ const startMonitoring = () => {
                 console.log(`⚠️ CAMBIO DETECTADO (${oldStatus} -> ${newStatus}). Notificando externo...`);
 
                 // Fetch al servicio externo (Webhook)
-                fetch('https://api.del-externo.com/webhook', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        event: "MARITIME_STATUS_CHANGE",
-                        previous_status: oldStatus,
-                        current_status: newStatus,
-                        description: newData.description,
-                        timestamp: newData.timestamp
-                    })
-                }).catch(err => console.error("⚠️ No se pudo contactar al externo:", err.message));
+                io.emit('status-update', {
+                    event: "MARITIME_STATUS_CHANGE",
+                    previous_status: oldStatus,
+                    current_status: newStatus,
+                    description: newData.description,
+                    timestamp: newData.timestamp,
+                    data_source: newData.data_source // Opcional: para que el front tenga los nudos del viento
+                });
             }
 
         } catch (error) {
@@ -53,8 +58,9 @@ const startMonitoring = () => {
     }, INTERVALO);
 };
 
-app.listen(CONFIG.PORT, () => {
-    console.log(`🚀 Servidor en puerto ${CONFIG.PORT}`);
-    // Ejecutamos una vez al arrancar para no esperar los primeros 5 min
-    startMonitoring();
+const PORT = process.env.PORT || 3000; // Render usará process.env.PORT
+
+httpServer.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+    startMonitoring(io);
 });
