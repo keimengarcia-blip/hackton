@@ -16,7 +16,7 @@ const Index = () => {
 
   try {
     // 1. Realizar la petición
-    const response = await fetch('http://localhost:3000/api/alert/'); // Usa la URL que te dio el curl
+    const response = await fetch('https://backend-tierrabomba.onrender.com/api/alert/'); // Usa la URL que te dio el curl
     
     if (!response.ok) {
       throw new Error(`Error del servidor: ${response.status}`);
